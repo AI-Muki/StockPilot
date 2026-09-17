@@ -128,22 +128,22 @@ export function WarehouseFormDialog({
           </div>
           <div className="space-y-2">
             <Label htmlFor="wh-address">Address</Label>
-            <Textarea id="wh-address" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} rows={2} />
+            <Textarea id="wh-address" value={form.address ?? ''} onChange={(e) => setForm({ ...form, address: e.target.value })} rows={2} />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="wh-city">City</Label>
-              <Input id="wh-city" value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} />
+              <Input id="wh-city" value={form.city ?? ''} onChange={(e) => setForm({ ...form, city: e.target.value })} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="wh-country">Country</Label>
-              <Input id="wh-country" value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} />
+              <Input id="wh-country" value={form.country ?? ''} onChange={(e) => setForm({ ...form, country: e.target.value })} />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="wh-manager">Manager</Label>
-              <Input id="wh-manager" value={form.manager} onChange={(e) => setForm({ ...form, manager: e.target.value })} />
+              <Input id="wh-manager" value={form.manager ?? ''} onChange={(e) => setForm({ ...form, manager: e.target.value })} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="wh-capacity">Capacity (units)</Label>
@@ -153,11 +153,11 @@ export function WarehouseFormDialog({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="wh-phone">Phone</Label>
-              <Input id="wh-phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+              <Input id="wh-phone" value={form.phone ?? ''} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="wh-email">Email</Label>
-              <Input id="wh-email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+              <Input id="wh-email" type="email" value={form.email ?? ''} onChange={(e) => setForm({ ...form, email: e.target.value })} />
             </div>
           </div>
           <div className="space-y-2">

@@ -138,6 +138,8 @@ function getPageTitle(pathname: string): string {
   const map: Record<string, string> = {
     '/dashboard': 'Dashboard',
     '/products': 'Products',
+    '/categories': 'Categories',
+    '/warehouses': 'Warehouses',
     '/inventory': 'Inventory',
     '/stock-movements': 'Stock Movements',
     '/transfers': 'Transfers',

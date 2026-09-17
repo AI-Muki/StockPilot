@@ -9,10 +9,14 @@ import { RegisterPage } from '@/pages/auth/register';
 import { ForgotPasswordPage } from '@/pages/auth/forgot-password';
 import { ResetPasswordPage } from '@/pages/auth/reset-password';
 import { DashboardPage } from '@/pages/dashboard';
+import { ProductsPage } from '@/pages/products/products';
+import { ProductDetailPage } from '@/pages/products/product-detail';
+import { CategoriesPage } from '@/pages/categories/categories';
+import { WarehousesPage } from '@/pages/warehouses/warehouses';
+import { WarehouseDetailPage } from '@/pages/warehouses/warehouse-detail';
 import { ComingSoonPage } from '@/pages/coming-soon';
 import { NotFoundState } from '@/components/states/states';
 import {
-  Package,
   Boxes,
   ArrowLeftRight,
   SlidersHorizontal,
@@ -53,8 +57,18 @@ function App() {
             >
               <Route path="/dashboard" element={<DashboardPage />} />
 
-              {/* Inventory */}
-              <Route path="/products" element={<ComingSoonPage title="Products" icon={Package} />} />
+              {/* Products */}
+              <Route path="/products" element={<ProductsPage />} />
+              <Route path="/products/:id" element={<ProductDetailPage />} />
+
+              {/* Categories */}
+              <Route path="/categories" element={<CategoriesPage />} />
+
+              {/* Warehouses */}
+              <Route path="/warehouses" element={<WarehousesPage />} />
+              <Route path="/warehouses/:id" element={<WarehouseDetailPage />} />
+
+              {/* Inventory (still coming soon) */}
               <Route path="/inventory" element={<ComingSoonPage title="Inventory" icon={Boxes} />} />
               <Route path="/stock-movements" element={<ComingSoonPage title="Stock Movements" icon={ArrowLeftRight} />} />
               <Route path="/transfers" element={<ComingSoonPage title="Transfers" icon={ArrowLeftRight} />} />

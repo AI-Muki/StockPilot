@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Package,
@@ -8,6 +9,7 @@ import {
   AlertTriangle,
   ArrowUpRight,
   ArrowDownRight,
+  Building2,
   type LucideIcon,
 } from 'lucide-react';
 import {
@@ -19,13 +21,28 @@ import {
 } from '@/components/ui/card';
 import { useAuth } from '@/hooks/use-auth';
 import { getRoleDisplayName } from '@/lib/permissions';
+import { fetchDashboardStats } from '@/services/inventory';
 
 export function DashboardPage() {
   const { user } = useAuth();
+  const [stats, setStats] = useState<{
+    productCount: number;
+    totalStock: number;
+    warehouseCount: number;
+    lowStockCount: number;
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user?.organizationId) return;
+    fetchDashboardStats(user.organizationId)
+      .then(setStats)
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [user?.organizationId]);
 
   return (
     <div className="space-y-6">
-      {/* Welcome header */}
       <div>
         <h2 className="text-2xl font-bold tracking-tight">
           Welcome back, {user?.fullName?.split(' ')[0] || 'there'}!
@@ -35,39 +52,37 @@ export function DashboardPage() {
         </p>
       </div>
 
-      {/* Stat cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Total Products"
-          value="—"
+          value={loading ? '—' : String(stats?.productCount ?? 0)}
           icon={Package}
-          trend="Coming in Phase 2"
+          trend="in catalog"
           trendType="neutral"
         />
         <StatCard
           title="Items in Stock"
-          value="—"
+          value={loading ? '—' : String(stats?.totalStock ?? 0)}
           icon={Boxes}
-          trend="Coming in Phase 2"
+          trend="total units"
           trendType="neutral"
         />
         <StatCard
-          title="Open POs"
-          value="—"
-          icon={ShoppingCart}
-          trend="Coming in Phase 2"
+          title="Warehouses"
+          value={loading ? '—' : String(stats?.warehouseCount ?? 0)}
+          icon={Building2}
+          trend="active locations"
           trendType="neutral"
         />
         <StatCard
-          title="Open SOs"
-          value="—"
-          icon={Truck}
-          trend="Coming in Phase 2"
-          trendType="neutral"
+          title="Low Stock Items"
+          value={loading ? '—' : String(stats?.lowStockCount ?? 0)}
+          icon={AlertTriangle}
+          trend={stats && stats.lowStockCount > 0 ? 'needs attention' : 'all good'}
+          trendType={stats && stats.lowStockCount > 0 ? 'down' : 'up'}
         />
       </div>
 
-      {/* Quick actions + status */}
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader>
@@ -83,7 +98,7 @@ export function DashboardPage() {
                 No activity yet
               </p>
               <p className="text-xs text-muted-foreground/70">
-                Activity feed will be available once inventory tracking is enabled in Phase 2.
+                Activity feed will be available once stock movements are implemented in a future phase.
               </p>
             </div>
           </CardContent>
@@ -96,24 +111,24 @@ export function DashboardPage() {
           </CardHeader>
           <CardContent className="space-y-2">
             <QuickAction label="View Products" to="/products" icon={Package} />
-            <QuickAction label="Check Inventory" to="/inventory" icon={Boxes} />
+            <QuickAction label="Manage Categories" to="/categories" icon={Package} />
+            <QuickAction label="View Warehouses" to="/warehouses" icon={Building2} />
             <QuickAction label="Purchase Orders" to="/purchase-orders" icon={ShoppingCart} />
             <QuickAction label="Sales Orders" to="/sales-orders" icon={Truck} />
           </CardContent>
         </Card>
       </div>
 
-      {/* Phase notice */}
       <Card className="border-dashed">
         <CardContent className="flex items-start gap-3 pt-6">
           <AlertTriangle className="h-5 w-5 shrink-0 text-amber-500" />
           <div>
             <p className="text-sm font-medium">
-              You're viewing the StockPilot foundation (Phase 1).
+              Products, categories, and warehouses are now available.
             </p>
             <p className="text-xs text-muted-foreground">
               Your account is set up as <strong>{user?.role ? getRoleDisplayName(user.role) : 'Unassigned'}</strong> in{' '}
-              <strong>{user?.organizationName || 'your organization'}</strong>. Products, inventory, and orders will be available in Phase 2.
+              <strong>{user?.organizationName || 'your organization'}</strong>. Purchase orders, sales orders, and stock movements will be available in the next phase.
             </p>
           </div>
         </CardContent>

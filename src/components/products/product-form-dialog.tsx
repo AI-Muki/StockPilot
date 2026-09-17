@@ -167,7 +167,7 @@ export function ProductFormDialog({
               <Label htmlFor="barcode">Barcode</Label>
               <Input
                 id="barcode"
-                value={form.barcode}
+                value={form.barcode ?? ''}
                 onChange={(e) => setForm({ ...form, barcode: e.target.value })}
               />
             </div>
@@ -175,7 +175,7 @@ export function ProductFormDialog({
               <Label htmlFor="brand">Brand</Label>
               <Input
                 id="brand"
-                value={form.brand}
+                value={form.brand ?? ''}
                 onChange={(e) => setForm({ ...form, brand: e.target.value })}
               />
             </div>
@@ -184,7 +184,7 @@ export function ProductFormDialog({
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
-              value={form.description}
+              value={form.description ?? ''}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
               rows={2}
             />
@@ -329,7 +329,7 @@ export function ProductFormDialog({
               <Label htmlFor="dimensions">Dimensions</Label>
               <Input
                 id="dimensions"
-                value={form.dimensions}
+                value={form.dimensions ?? ''}
                 onChange={(e) => setForm({ ...form, dimensions: e.target.value })}
               />
             </div>

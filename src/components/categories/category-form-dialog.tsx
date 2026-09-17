@@ -105,7 +105,7 @@ export function CategoryFormDialog({
           </div>
           <div className="space-y-2">
             <Label htmlFor="cat-desc">Description</Label>
-            <Textarea id="cat-desc" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={2} />
+            <Textarea id="cat-desc" value={form.description ?? ''} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={2} />
           </div>
           <div className="space-y-2">
             <Label>Parent Category</Label>

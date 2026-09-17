@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Professional B2B SaaS palette — blue primary, neutral grays */
+    --background: 210 20% 98%;
+    --foreground: 215 25% 17%;
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 17%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 17%;
+    --primary: 215 84% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 16% 95%;
+    --secondary-foreground: 215 25% 17%;
+    --muted: 210 16% 94%;
+    --muted-foreground: 215 15% 45%;
+    --accent: 200 85% 90%;
+    --accent-foreground: 200 80% 30%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --border: 214 20% 88%;
+    --input: 214 20% 88%;
+    --ring: 215 84% 55%;
+    --chart-1: 215 84% 55%;
+    --chart-2: 142 71% 45%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 215 28% 8%;
+    --foreground: 210 20% 92%;
+    --card: 215 25% 11%;
+    --card-foreground: 210 20% 92%;
+    --popover: 215 25% 11%;
+    --popover-foreground: 210 20% 92%;
+    --primary: 215 84% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 215 20% 16%;
+    --secondary-foreground: 210 20% 92%;
+    --muted: 215 20% 16%;
+    --muted-foreground: 215 15% 60%;
+    --accent: 200 50% 20%;
+    --accent-foreground: 200 80% 80%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --border: 215 20% 20%;
+    --input: 215 20% 20%;
+    --ring: 215 84% 60%;
+    --chart-1: 215 84% 60%;
+    --chart-2: 142 71% 50%;
+    --chart-3: 38 92% 55%;
+    --chart-4: 280 65% 65%;
+    --chart-5: 340 75% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}

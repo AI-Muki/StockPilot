@@ -26,7 +26,7 @@ import {
 import { LoadingState, ErrorState, EmptyState } from '@/components/states/states';
 import { AdjustmentDialog } from '@/components/inventory/adjustment-dialog';
 import { useAuth } from '@/hooks/use-auth';
-import { fetchStockMovements, formatMovementType } from '@/services/inventory-engine';
+import { fetchAdjustments } from '@/services/inventory-engine';
 import { fetchProducts, fetchWarehouses } from '@/services/inventory';
 import type { Product, Warehouse } from '@/types';
 
@@ -52,26 +52,14 @@ export function AdjustmentsPage() {
     setLoading(true);
     setError(null);
     try {
-      const result = await fetchStockMovements({
+      const result = await fetchAdjustments({
         orgId,
         search,
-        movementType: 'ADJUSTMENT_IN',
         page,
         page_size: pageSize,
       });
-      // Also fetch ADJUSTMENT_OUT
-      const result2 = await fetchStockMovements({
-        orgId,
-        search,
-        movementType: 'ADJUSTMENT_OUT',
-        page,
-        page_size: pageSize,
-      });
-      const combined = [...result.data, ...result2.data].sort(
-        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-      );
-      setMovements(combined);
-      setTotal(combined.length);
+      setMovements(result.data);
+      setTotal(result.total);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load adjustments');
     } finally {

@@ -149,22 +149,20 @@ export async function adjustStock(params: {
   userId?: string | null;
 }): Promise<MovementResult> {
   const movementType: MovementType = params.direction === 'IN' ? 'ADJUSTMENT_IN' : 'ADJUSTMENT_OUT';
-  return increaseStock({
-    ...params,
-    movementType,
-    reason: params.reason,
-    notes: params.notes ?? null,
-  }).then((result) => {
-    if (params.direction === 'OUT') {
-      return decreaseStock({
-        ...params,
-        movementType: 'ADJUSTMENT_OUT',
-        reason: params.reason,
-        notes: params.notes ?? null,
-      });
-    }
-    return result;
+  const { data, error } = await supabase.rpc('process_inventory_movement', {
+    p_org_id: params.orgId,
+    p_product_id: params.productId,
+    p_warehouse_id: params.warehouseId,
+    p_movement_type: movementType,
+    p_quantity: params.quantity,
+    p_reason: params.reason,
+    p_notes: params.notes ?? null,
+    p_reference_type: 'ADJUSTMENT',
+    p_reference_id: null,
+    p_user_id: params.userId ?? null,
   });
+  if (error) throw new Error(mapInventoryError(error.message));
+  return data as MovementResult;
 }
 
 // ============================================================
@@ -273,8 +271,8 @@ export async function fetchInventoryList(params: {
     item.available_stock = item.quantity_on_hand - item.quantity_reserved;
     item.inventory_status = computeStockStatus(
       item.quantity_on_hand,
-      item.product_reorder_point,
-      item.product_maximum_stock,
+      item.product_reorder_point ?? 0,
+      item.product_maximum_stock ?? null,
     );
     item.inventory_value = item.quantity_on_hand * (item.product_cost_price ?? 0);
   }
@@ -398,6 +396,48 @@ export async function createAdjustment(params: {
   });
   if (error) throw new Error(mapInventoryError(error.message));
   return data as MovementResult;
+}
+
+export async function fetchAdjustments(params: {
+  orgId: string;
+  search?: string;
+  page?: number;
+  page_size?: number;
+}): Promise<{ data: StockMovementWithDetails[]; total: number }> {
+  const {
+    search = '',
+    page = 1,
+    page_size = 15,
+  } = params;
+
+  let query = supabase
+    .from('stock_movements')
+    .select(
+      '*, product:products(name, sku), warehouse:warehouses(name, code), user:profiles(email, full_name)',
+      { count: 'exact' },
+    )
+    .eq('organization_id', params.orgId)
+    .in('movement_type', ['ADJUSTMENT_IN', 'ADJUSTMENT_OUT'])
+    .order('created_at', { ascending: false });
+
+  const from = (page - 1) * page_size;
+  query = query.range(from, from + page_size - 1);
+
+  const { data, error, count } = await query;
+  if (error) throw new Error(error.message);
+
+  let movements = (data || []) as StockMovementWithDetails[];
+  if (search) {
+    const q = search.toLowerCase();
+    movements = movements.filter(
+      (m) =>
+        (m.product as any)?.name?.toLowerCase().includes(q) ||
+        (m.product as any)?.sku?.toLowerCase().includes(q) ||
+        (m.warehouse as any)?.name?.toLowerCase().includes(q),
+    );
+  }
+
+  return { data: movements, total: count ?? 0 };
 }
 
 // ============================================================

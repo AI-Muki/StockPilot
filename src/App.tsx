@@ -14,6 +14,9 @@ import { ProductDetailPage } from '@/pages/products/product-detail';
 import { CategoriesPage } from '@/pages/categories/categories';
 import { WarehousesPage } from '@/pages/warehouses/warehouses';
 import { WarehouseDetailPage } from '@/pages/warehouses/warehouse-detail';
+import { InventoryPage } from '@/pages/inventory/inventory';
+import { StockMovementsPage } from '@/pages/inventory/stock-movements';
+import { AdjustmentsPage } from '@/pages/inventory/adjustments';
 import { ComingSoonPage } from '@/pages/coming-soon';
 import { NotFoundState } from '@/components/states/states';
 import {
@@ -68,11 +71,11 @@ function App() {
               <Route path="/warehouses" element={<WarehousesPage />} />
               <Route path="/warehouses/:id" element={<WarehouseDetailPage />} />
 
-              {/* Inventory (still coming soon) */}
-              <Route path="/inventory" element={<ComingSoonPage title="Inventory" icon={Boxes} />} />
-              <Route path="/stock-movements" element={<ComingSoonPage title="Stock Movements" icon={ArrowLeftRight} />} />
+              {/* Inventory */}
+              <Route path="/inventory" element={<InventoryPage />} />
+              <Route path="/movements" element={<StockMovementsPage />} />
+              <Route path="/adjustments" element={<AdjustmentsPage />} />
               <Route path="/transfers" element={<ComingSoonPage title="Transfers" icon={ArrowLeftRight} />} />
-              <Route path="/adjustments" element={<ComingSoonPage title="Adjustments" icon={SlidersHorizontal} />} />
 
               {/* Orders */}
               <Route path="/purchase-orders" element={<ComingSoonPage title="Purchase Orders" icon={ShoppingCart} />} />

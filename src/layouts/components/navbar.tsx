@@ -141,7 +141,7 @@ function getPageTitle(pathname: string): string {
     '/categories': 'Categories',
     '/warehouses': 'Warehouses',
     '/inventory': 'Inventory',
-    '/stock-movements': 'Stock Movements',
+    '/movements': 'Stock Movements',
     '/transfers': 'Transfers',
     '/adjustments': 'Adjustments',
     '/purchase-orders': 'Purchase Orders',

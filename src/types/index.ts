@@ -217,3 +217,93 @@ export interface WarehouseInput {
   capacity: number | null;
   status: WarehouseStatus;
 }
+
+// ============================================================
+// STOCK MOVEMENTS
+// ============================================================
+
+export type MovementType =
+  | 'PURCHASE_RECEIPT'
+  | 'SALE'
+  | 'TRANSFER_OUT'
+  | 'TRANSFER_IN'
+  | 'ADJUSTMENT_IN'
+  | 'ADJUSTMENT_OUT'
+  | 'RETURN_IN'
+  | 'RETURN_OUT'
+  | 'DAMAGE'
+  | 'INITIAL_STOCK';
+
+export interface StockMovement {
+  id: string;
+  organization_id: string;
+  product_id: string;
+  warehouse_id: string;
+  movement_type: MovementType;
+  quantity: number;
+  previous_quantity: number;
+  new_quantity: number;
+  reference_type: string | null;
+  reference_id: string | null;
+  reason: string | null;
+  notes: string | null;
+  user_id: string | null;
+  created_at: string;
+  product?: Product;
+  warehouse?: Warehouse;
+  user?: { id: string; email: string; full_name: string | null };
+}
+
+export interface StockMovementWithDetails extends StockMovement {
+  product_name?: string;
+  product_sku?: string;
+  warehouse_name?: string;
+  warehouse_code?: string;
+  user_email?: string | null;
+}
+
+// ============================================================
+// AUDIT LOGS
+// ============================================================
+
+export interface AuditLog {
+  id: string;
+  organization_id: string;
+  user_id: string | null;
+  action: 'CREATE' | 'UPDATE' | 'DELETE';
+  entity: string;
+  entity_id: string | null;
+  before: Record<string, unknown> | null;
+  after: Record<string, unknown> | null;
+  created_at: string;
+  user?: { id: string; email: string; full_name: string | null };
+}
+
+// ============================================================
+// INVENTORY STATUS
+// ============================================================
+
+export type InventoryStatus = 'OUT_OF_STOCK' | 'LOW_STOCK' | 'IN_STOCK' | 'OVERSTOCKED';
+
+export interface InventoryWithDetails extends WarehouseInventory {
+  product_name?: string;
+  product_sku?: string;
+  product_cost_price?: number;
+  product_reorder_point?: number;
+  product_maximum_stock?: number | null;
+  available_stock?: number;
+  inventory_status?: InventoryStatus;
+  inventory_value?: number;
+}
+
+export type AdjustmentReason =
+  | 'Damaged'
+  | 'Lost'
+  | 'Found'
+  | 'Counting Error'
+  | 'Initial Stock'
+  | 'Manual Correction'
+  | 'Expired'
+  | 'Other';
+
+export type AdjustmentDirection = 'IN' | 'OUT';

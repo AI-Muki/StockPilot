@@ -44,7 +44,7 @@ export const NAV_SECTIONS: NavSection[] = [
       { label: 'Categories', to: '/categories', icon: Package, permission: 'products.view' },
       { label: 'Inventory', to: '/inventory', icon: Boxes, permission: 'inventory.view' },
       { label: 'Warehouses', to: '/warehouses', icon: Building2, permission: 'warehouses.manage' },
-      { label: 'Stock Movements', to: '/stock-movements', icon: ArrowLeftRight, permission: 'inventory.view' },
+      { label: 'Stock Movements', to: '/movements', icon: ArrowLeftRight, permission: 'inventory.view' },
       { label: 'Transfers', to: '/transfers', icon: ArrowLeftRight, permission: 'inventory.transfer' },
       { label: 'Adjustments', to: '/adjustments', icon: SlidersHorizontal, permission: 'inventory.adjust' },
     ],

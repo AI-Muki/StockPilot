@@ -18,6 +18,10 @@ import { InventoryPage } from '@/pages/inventory/inventory';
 import { StockMovementsPage } from '@/pages/inventory/stock-movements';
 import { AdjustmentsPage } from '@/pages/inventory/adjustments';
 import { ComingSoonPage } from '@/pages/coming-soon';
+import { SuppliersPage } from '@/pages/suppliers/suppliers';
+import { SupplierDetailPage } from '@/pages/suppliers/supplier-detail';
+import { PurchaseOrdersPage } from '@/pages/purchase-orders/purchase-orders';
+import { PurchaseOrderDetailPage } from '@/pages/purchase-orders/purchase-order-detail';
 import { NotFoundState } from '@/components/states/states';
 import {
   Boxes,
@@ -78,12 +82,14 @@ function App() {
               <Route path="/transfers" element={<ComingSoonPage title="Transfers" icon={ArrowLeftRight} />} />
 
               {/* Orders */}
-              <Route path="/purchase-orders" element={<ComingSoonPage title="Purchase Orders" icon={ShoppingCart} />} />
+              <Route path="/purchase-orders" element={<PurchaseOrdersPage />} />
+              <Route path="/purchase-orders/:id" element={<PurchaseOrderDetailPage />} />
               <Route path="/sales-orders" element={<ComingSoonPage title="Sales Orders" icon={Truck} />} />
 
               {/* Contacts */}
               <Route path="/customers" element={<ComingSoonPage title="Customers" icon={Users} />} />
-              <Route path="/suppliers" element={<ComingSoonPage title="Suppliers" icon={Building2} />} />
+              <Route path="/suppliers" element={<SuppliersPage />} />
+              <Route path="/suppliers/:id" element={<SupplierDetailPage />} />
 
               {/* Analytics */}
               <Route path="/analytics" element={<ComingSoonPage title="Analytics" icon={BarChart3} />} />

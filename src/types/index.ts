@@ -307,3 +307,119 @@ export type AdjustmentReason =
   | 'Other';
 
 export type AdjustmentDirection = 'IN' | 'OUT';
+
+// ============================================================
+// SUPPLIERS
+// ============================================================
+
+export type SupplierStatus = 'ACTIVE' | 'INACTIVE';
+
+export interface Supplier {
+  id: string;
+  organization_id: string;
+  company_name: string;
+  contact_person: string | null;
+  email: string | null;
+  phone: string | null;
+  address: string | null;
+  city: string | null;
+  country: string | null;
+  tax_id: string | null;
+  payment_terms: string | null;
+  notes: string | null;
+  status: SupplierStatus;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SupplierInput {
+  company_name: string;
+  contact_person: string | null;
+  email: string | null;
+  phone: string | null;
+  address: string | null;
+  city: string | null;
+  country: string | null;
+  tax_id: string | null;
+  payment_terms: string | null;
+  notes: string | null;
+  status: SupplierStatus;
+}
+
+export interface SupplierWithStats extends Supplier {
+  total_orders?: number;
+  total_spending?: number;
+  pending_orders?: number;
+  received_orders?: number;
+}
+
+// ============================================================
+// PURCHASE ORDERS
+// ============================================================
+
+export type PurchaseOrderStatus =
+  | 'DRAFT'
+  | 'SUBMITTED'
+  | 'APPROVED'
+  | 'ORDERED'
+  | 'PARTIALLY_RECEIVED'
+  | 'RECEIVED'
+  | 'CANCELLED';
+
+export interface PurchaseOrderItem {
+  id: string;
+  purchase_order_id: string;
+  product_id: string;
+  quantity: number;
+  received_quantity: number;
+  unit_cost: number;
+  tax_rate: number;
+  discount_amount: number;
+  line_total: number;
+  created_at: string;
+  product?: Product;
+}
+
+export interface PurchaseOrderItemInput {
+  product_id: string;
+  quantity: number;
+  unit_cost: number;
+  tax_rate: number;
+  discount_amount: number;
+}
+
+export interface PurchaseOrder {
+  id: string;
+  organization_id: string;
+  po_number: string;
+  supplier_id: string | null;
+  warehouse_id: string;
+  status: PurchaseOrderStatus;
+  order_date: string;
+  expected_delivery: string | null;
+  currency: string;
+  notes: string | null;
+  subtotal: number;
+  tax_amount: number;
+  discount_amount: number;
+  total: number;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+  supplier?: Supplier | null;
+  warehouse?: Warehouse;
+  created_by_profile?: { id: string; email: string; full_name: string | null } | null;
+}
+
+export interface PurchaseOrderWithItems extends PurchaseOrder {
+  items?: PurchaseOrderItem[];
+}
+
+export interface PurchaseOrderInput {
+  supplier_id: string | null;
+  warehouse_id: string;
+  expected_delivery: string | null;
+  currency: string;
+  notes: string | null;
+  items: PurchaseOrderItemInput[];
+}

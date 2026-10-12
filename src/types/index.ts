@@ -423,3 +423,120 @@ export interface PurchaseOrderInput {
   notes: string | null;
   items: PurchaseOrderItemInput[];
 }
+
+// ============================================================
+// CUSTOMERS
+// ============================================================
+
+export type CustomerStatus = 'ACTIVE' | 'INACTIVE';
+
+export interface Customer {
+  id: string;
+  organization_id: string;
+  company_name: string;
+  contact_person: string | null;
+  email: string | null;
+  phone: string | null;
+  address: string | null;
+  city: string | null;
+  country: string | null;
+  tax_id: string | null;
+  notes: string | null;
+  status: CustomerStatus;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CustomerInput {
+  company_name: string;
+  contact_person: string | null;
+  email: string | null;
+  phone: string | null;
+  address: string | null;
+  city: string | null;
+  country: string | null;
+  tax_id: string | null;
+  notes: string | null;
+  status: CustomerStatus;
+}
+
+export interface CustomerWithStats extends Customer {
+  total_orders?: number;
+  total_spending?: number;
+  open_orders?: number;
+  fulfilled_orders?: number;
+}
+
+// ============================================================
+// SALES ORDERS
+// ============================================================
+
+export type SalesOrderStatus =
+  | 'DRAFT'
+  | 'CONFIRMED'
+  | 'PROCESSING'
+  | 'PARTIALLY_FULFILLED'
+  | 'FULFILLED'
+  | 'CANCELLED';
+
+export type PaymentStatus = 'UNPAID' | 'PARTIALLY_PAID' | 'PAID';
+
+export interface SalesOrderItem {
+  id: string;
+  sales_order_id: string;
+  product_id: string;
+  quantity: number;
+  reserved_quantity: number;
+  fulfilled_quantity: number;
+  unit_price: number;
+  tax_rate: number;
+  discount_amount: number;
+  line_total: number;
+  created_at: string;
+  product?: Product;
+}
+
+export interface SalesOrderItemInput {
+  product_id: string;
+  quantity: number;
+  unit_price: number;
+  tax_rate: number;
+  discount_amount: number;
+}
+
+export interface SalesOrder {
+  id: string;
+  organization_id: string;
+  so_number: string;
+  customer_id: string | null;
+  warehouse_id: string;
+  status: SalesOrderStatus;
+  payment_status: PaymentStatus;
+  order_date: string;
+  delivery_date: string | null;
+  currency: string;
+  notes: string | null;
+  subtotal: number;
+  tax_amount: number;
+  discount_amount: number;
+  total: number;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+  customer?: Customer | null;
+  warehouse?: Warehouse;
+  created_by_profile?: { id: string; email: string; full_name: string | null } | null;
+}
+
+export interface SalesOrderWithItems extends SalesOrder {
+  items?: SalesOrderItem[];
+}
+
+export interface SalesOrderInput {
+  customer_id: string | null;
+  warehouse_id: string;
+  delivery_date: string | null;
+  currency: string;
+  notes: string | null;
+  items: SalesOrderItemInput[];
+}

@@ -22,6 +22,10 @@ import { SuppliersPage } from '@/pages/suppliers/suppliers';
 import { SupplierDetailPage } from '@/pages/suppliers/supplier-detail';
 import { PurchaseOrdersPage } from '@/pages/purchase-orders/purchase-orders';
 import { PurchaseOrderDetailPage } from '@/pages/purchase-orders/purchase-order-detail';
+import { CustomersPage } from '@/pages/customers/customers';
+import { CustomerDetailPage } from '@/pages/customers/customer-detail';
+import { SalesOrdersPage } from '@/pages/sales-orders/sales-orders';
+import { SalesOrderDetailPage } from '@/pages/sales-orders/sales-order-detail';
 import { NotFoundState } from '@/components/states/states';
 import {
   Boxes,
@@ -84,10 +88,12 @@ function App() {
               {/* Orders */}
               <Route path="/purchase-orders" element={<PurchaseOrdersPage />} />
               <Route path="/purchase-orders/:id" element={<PurchaseOrderDetailPage />} />
-              <Route path="/sales-orders" element={<ComingSoonPage title="Sales Orders" icon={Truck} />} />
+              <Route path="/sales-orders" element={<SalesOrdersPage />} />
+              <Route path="/sales-orders/:id" element={<SalesOrderDetailPage />} />
 
               {/* Contacts */}
-              <Route path="/customers" element={<ComingSoonPage title="Customers" icon={Users} />} />
+              <Route path="/customers" element={<CustomersPage />} />
+              <Route path="/customers/:id" element={<CustomerDetailPage />} />
               <Route path="/suppliers" element={<SuppliersPage />} />
               <Route path="/suppliers/:id" element={<SupplierDetailPage />} />
 
